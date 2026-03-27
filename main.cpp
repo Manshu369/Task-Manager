@@ -24,4 +24,38 @@ string getPriority(string input) {
 
     return "Low";
 }
+// Load tasks
+vector<Task> loadTasks() {
+    vector<Task> tasks;
+    ifstream file(FILE_NAME);
+    string line;
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        Task t;
+
+        ss >> t.id;
+        ss.ignore();
+
+        getline(ss, t.title, '|');
+        getline(ss, t.priority, '|');
+        ss >> t.completed;
+
+        tasks.push_back(t);
+    }
+
+    return tasks;
+}
+
+// Save tasks
+void saveTasks(vector<Task>& tasks) {
+    ofstream file(FILE_NAME);
+
+    for (auto &t : tasks) {
+        file << t.id << " "
+             << t.title << "|"
+             << t.priority << "|"
+             << t.completed << endl;
+    }
+}
 
